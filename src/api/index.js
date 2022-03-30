@@ -14,6 +14,7 @@ export const fetchData = async () => {
     //   deaths: deaths,
     //   lastupdate: lastupdate,
     // };
+    // 위 코드를 아래처럼 줄여서 표현할 수 있다.
 
     return { confirmed, recovered, deaths, lastUpdate };
   } catch (error) {

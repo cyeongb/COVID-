@@ -1,6 +1,7 @@
 import React from "react";
 
-const Cards = () => {
+const Cards = ({ data }) => {
+  console.log("data > ", data);
   return <div>Cards</div>;
 };
 
