@@ -11,13 +11,27 @@ body {
     justify-content: space-evenly;
 }
 
+.app__left {
+    flex: 0.9;
+    /* 90% of full width */
+}
+
 .app__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.5rem;
 }
 
 .app__stats {
     display: flex;
     justify-content: space-around;
+}
+
+/* breakpoints */
+
+@media(max-width:990px) {
+    .app {
+        flex-direction: column;
+    }
 }
