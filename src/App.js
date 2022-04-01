@@ -4,17 +4,18 @@ import {
   FormControl,
   MenuItem,
   Select,
-  Table,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
+import Table from "./Table";
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({}); //json object
+  const [tableData, setTableData] = useState([]);
 
   // useEffect
   //world wide all data 가져오기
@@ -33,6 +34,7 @@ function App() {
             name: country.country, //나라 이름 풀네임
             value: country.countryInfo.iso3, //나라 이름 약자 (3글자)
           }));
+          setTableData(data);
           setCountries(countryData);
         });
     };
@@ -44,8 +46,8 @@ function App() {
     const countryCode = e.target.value; // selected value
 
     setCountry(countryCode);
-    console.log("countryCode>>", countryCode);
-    console.log("country>>", country);
+    // console.log("countryCode>>", countryCode);
+    // console.log("country>>", country);
 
     // all 일때 : 각각 일 때
     const url =
@@ -61,6 +63,7 @@ function App() {
       });
   };
   console.log("countryInfo >", countryInfo);
+  console.log("tableData >", tableData);
 
   return (
     <div className="app">
@@ -111,7 +114,7 @@ function App() {
         <CardContent>
           <h3>Live Cases by Country</h3>
           {/* Table */}
-          <Table countries={countries} />
+          <Table countries={tableData} />
 
           <h3>Worldwide new Cases</h3>
           {/* Graph */}
