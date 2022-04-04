@@ -11,6 +11,8 @@ import "./App.css";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 import Table from "./Table";
+import { sortData } from "./util";
+
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
@@ -34,7 +36,9 @@ function App() {
             name: country.country, //나라 이름 풀네임
             value: country.countryInfo.iso3, //나라 이름 약자 (3글자)
           }));
-          setTableData(data);
+          const sortedData = sortData(data);
+          console.log("sortedData > ", sortedData);
+          setTableData(sortedData);
           setCountries(countryData);
         });
     };
