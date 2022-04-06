@@ -23,9 +23,13 @@ function App() {
   // useEffect
   //world wide all data 가져오기
   useEffect(() => {
-    fetch("https://disease.sh/v3/covid-19/all")
-      .then((res) => res.json())
-      .then((data) => setCountryInfo(data));
+    const setCountriesInfo = async () => {
+      await fetch("https://disease.sh/v3/covid-19/all")
+        .then((res) => res.json())
+        .then((data) => setCountryInfo(data));
+    };
+
+    setCountriesInfo();
   }, []);
 
   useEffect(() => {
@@ -38,7 +42,7 @@ function App() {
             value: country.countryInfo.iso3, //나라 이름 약자 (3글자)
           }));
           const sortedData = sortData(data);
-          console.log("sortedData > ", sortedData);
+          // console.log("sortedData > ", sortedData);
           setTableData(sortedData);
           setCountries(countryData);
         });
@@ -67,8 +71,8 @@ function App() {
         setCountryInfo(data);
       });
   };
-  console.log("countryInfo >", countryInfo);
-  console.log("tableData >", tableData);
+  // console.log("countryInfo >", countryInfo);
+  // console.log("tableData >", tableData);
 
   return (
     <div className="app">

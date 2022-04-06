@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 
-//Line chart 숫자의 point를 다룰 때 필요한 config 데이터들 임
-// numeral 패키지 사용
-// 날짜 형식 포맷
-
+// line chart 그래프에 config 데이터들을 입력해 줍니다
 const options = {
   legend: {
     display: false,
@@ -20,13 +17,13 @@ const options = {
     mode: "index",
     intersect: false,
     callbacks: {
-      label: function (tootipItem, data) {
-        return numeral(tootipItem.value).format("+0,0");
+      label: function (tooltipItem, data) {
+        return numeral(tooltipItem.value).format("+0,0");
       },
     },
   },
   scales: {
-    //x , y 좌표 형식 format하기
+    //x 좌표와 y 좌표 설정값 format
     xAxes: [
       {
         type: "time",
@@ -51,54 +48,58 @@ const options = {
   },
 };
 
-function LineGraph() {
-  // x축이 날짜 , y축이 case number
+const buildChartData = (data, casesType) => {
+  let chartData = [];
+  let lastDataPoint;
+  for (let date in data.cases) {
+    if (lastDataPoint) {
+      let newDataPoint = {
+        x: date,
+        y: data[casesType][date] - lastDataPoint,
+      };
+      chartData.push(newDataPoint);
+    }
+    lastDataPoint = data[casesType][date];
+  }
+  return chartData;
+};
+
+function LineGraph({ casesType }) {
   const [data, setData] = useState({});
 
-  // casesType : data.cases 객체만 들고온다.
-  const buildChartData = (data, casesType = "cases") => {
-    const chartData = [];
-    let lastDataPoint;
-
-    for (let date in data.cases) {
-      if (lastDataPoint) {
-        let newDataPoint = {
-          x: date,
-          y: data[casesType][date] - lastDataPoint,
-        };
-        chartData.push(newDataPoint);
-      }
-      lastDataPoint = data[casesType][date];
-    }
-    return chartData;
-  };
-
   useEffect(() => {
-    fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("data > ", data);
-        const chartData = buildChartData(data, "cases");
-        console.log("chartData >> ", chartData);
-        setData(chartData);
-      });
-  }, []);
+    const fetchData = async () => {
+      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let chartData = buildChartData(data, casesType);
+          setData(chartData);
+          console.log(chartData);
+          // buildChart(chartData);
+        });
+    };
+
+    fetchData();
+  }, [casesType]);
 
   return (
     <div>
-      <h1>GRAPH</h1>
-      <Line
-        data={{
-          datasets: [
-            {
-              data: data,
-              backgroundColor: "rgba(204,16,52,0.3)",
-              borderColor: "#cc1034",
-            },
-          ],
-        }}
-        options={options}
-      />
+      {data?.length > 0 && (
+        <Line
+          data={{
+            datasets: [
+              {
+                backgroundColor: "rgba(204, 16, 52, 0.5)",
+                borderColor: "#CC1034",
+                data: data,
+              },
+            ],
+          }}
+          options={options}
+        />
+      )}
     </div>
   );
 }
