@@ -10,11 +10,10 @@ import {
 import InfoBox from "./InfoBox";
 import LineGraph from "./LineGraph";
 import Table from "./Table";
-import { sortData } from "./util";
-// import { sortData, prettyPrintStat } from "./util";
+import { sortData, prettyPrintStat } from "./util";
 import numeral from "numeral";
 import Map from "./Map";
-// import "leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css";
 
 const App = () => {
   const [country, setInputCountry] = useState("worldwide");
@@ -96,14 +95,14 @@ const App = () => {
             title="Coronavirus Cases"
             isRed
             active={casesType === "cases"}
-            // cases={prettyPrintStat(countryInfo.todayCases)}
+            cases={prettyPrintStat(countryInfo.todayCases)}
             total={numeral(countryInfo.cases).format("0.0a")}
           />
           <InfoBox
             onClick={(e) => setCasesType("recovered")}
             title="Recovered"
             active={casesType === "recovered"}
-            // cases={prettyPrintStat(countryInfo.todayRecovered)}
+            cases={prettyPrintStat(countryInfo.todayRecovered)}
             total={numeral(countryInfo.recovered).format("0.0a")}
           />
           <InfoBox
@@ -111,7 +110,7 @@ const App = () => {
             title="Deaths"
             isRed
             active={casesType === "deaths"}
-            // cases={prettyPrintStat(countryInfo.todayDeaths)}
+            cases={prettyPrintStat(countryInfo.todayDeaths)}
             total={numeral(countryInfo.deaths).format("0.0a")}
           />
         </div>
