@@ -64,10 +64,11 @@ const buildChartData = (data, casesType) => {
   return chartData;
 };
 
-function LineGraph({ casesType }) {
+function LineGraph({ casesType = "cases" }) {
   const [data, setData] = useState({});
 
   useEffect(() => {
+    // casesType이 not null일때 동작함
     const fetchData = async () => {
       await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
         .then((response) => {
@@ -80,12 +81,12 @@ function LineGraph({ casesType }) {
           // buildChart(chartData);
         });
     };
-
     fetchData();
-  }, []);
+  }, [casesType]);
 
   return (
     <div>
+      {/* data && data.length >0 과 동일 */}
       {data?.length > 0 && (
         <Line
           data={{
