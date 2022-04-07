@@ -2,8 +2,15 @@
     margin: 0;
 }
 
+
 body {
     background-color: whitesmoke;
+}
+
+h1 {
+    color: #602f0c;
+    font-size: 2.5rem;
+    padding: 1rem;
 }
 
 .app {

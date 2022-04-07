@@ -22,7 +22,10 @@ const App = () => {
   const [mapCountries, setMapCountries] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [casesType, setCasesType] = useState("cases");
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapCenter, setMapCenter] = useState({
+    lat: 38.72593414128789,
+    lng: 126.04738405396398,
+  }); //지도 중간 세팅 38.72593414128789, 126.04738405396398
   const [mapZoom, setMapZoom] = useState(3);
 
   useEffect(() => {
@@ -75,14 +78,14 @@ const App = () => {
     <div className="app">
       <div className="app__left">
         <div className="app__header">
-          <h1>COVID-19 Tracker</h1>
+          <h1>코로나 발생 현황 </h1>
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
               value={country}
               onChange={onCountryChange}
             >
-              <MenuItem value="worldwide">Worldwide</MenuItem>
+              <MenuItem value="worldwide">전세계</MenuItem>
               {countries.map((country) => (
                 <MenuItem value={country.value}>{country.name}</MenuItem>
               ))}
@@ -92,7 +95,7 @@ const App = () => {
         <div className="app__stats">
           <InfoBox
             onClick={(e) => setCasesType("cases")}
-            title="Coronavirus Cases"
+            title="코로나 누적확진자"
             isRed
             active={casesType === "cases"}
             cases={prettyPrintStat(countryInfo.todayCases)}
@@ -100,14 +103,14 @@ const App = () => {
           />
           <InfoBox
             onClick={(e) => setCasesType("recovered")}
-            title="Recovered"
+            title="회복됨"
             active={casesType === "recovered"}
             cases={prettyPrintStat(countryInfo.todayRecovered)}
             total={numeral(countryInfo.recovered).format("0.0a")}
           />
           <InfoBox
             onClick={(e) => setCasesType("deaths")}
-            title="Deaths"
+            title="사망"
             isRed
             active={casesType === "deaths"}
             cases={prettyPrintStat(countryInfo.todayDeaths)}
@@ -124,9 +127,12 @@ const App = () => {
       <Card className="app__right">
         <CardContent>
           <div className="app__information">
-            <h3>Live Cases by Country</h3>
+            <h3>나라별 실시간 현황</h3>
             <Table countries={tableData} />
-            <h3>Worldwide new {casesType}</h3>
+            <br /> <br />
+            <br />
+            <h3>날짜별 신규 발생 그래프</h3>
+            <br />
             <LineGraph casesType={casesType} />
           </div>
         </CardContent>
