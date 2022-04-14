@@ -37,6 +37,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    //나라별 데이터 가져오기
     const getCountriesData = async () => {
       fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
